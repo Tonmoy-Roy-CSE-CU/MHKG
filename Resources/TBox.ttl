@@ -1,0 +1,901 @@
+# =============================================================================
+# MHKG TBox v3.0 — Mental Health Knowledge Graph Terminological Box
+# Generated : 2026-02-28T10:41:46.914968 UTC
+# Vocabulary: QB4OLAP + QB + OWL 2 DL + RDFS
+# Namespaces: ICD-11, SNOMED CT, MeSH, NCI, UMLS, WHO GHO,
+#             Wikidata, DBpedia, GeoNames, schema.org
+# Cubes     : mhSurveyCube (renamed), mhSuicideCube (NEW)
+# Cuboids   : mhSurveyCuboid, mhAcademicCuboid, mhWorkCuboid, mhSuicideCuboid
+# Compatible: Virtuoso, Apache Jena Fuseki, GraphDB
+# =============================================================================
+
+@prefix mhp:     <http://mhkg.example.com/datasets/mentalhealth/abox/mdProperty#> .
+@prefix mhs:     <http://mhkg.example.com/datasets/mentalhealth/abox/mdStructure#> .
+@prefix mha:     <http://mhkg.example.com/datasets/mentalhealth/abox/mdAttribute#> .
+@prefix onto:    <http://mhkg.example.com/datasets/mentalhealth/abox/> .
+@prefix dataset: <http://mhkg.example.com/datasets/mentalhealth/abox/data#> .
+@prefix qb:      <http://purl.org/linked-data/cube#> .
+@prefix qb4o:    <http://purl.org/qb4olap/cubes#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix schema:  <https://schema.org/> .
+@prefix wikidata:<http://www.wikidata.org/entity/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix geonames:<http://sws.geonames.org/> .
+@prefix mesh:    <http://id.nlm.nih.gov/mesh/> .
+@prefix nci:     <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#> .
+@prefix umls:    <http://linkedlifedata.com/resource/umls/id/> .
+@prefix snomed:  <http://snomed.info/id/> .
+@prefix icd:     <http://id.who.int/icd/entity/> .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OWL ONTOLOGY HEADER
+# ═══════════════════════════════════════════════════════════════════════════════
+
+<http://mhkg.example.com/datasets/mentalhealth/abox/>
+    a owl:Ontology ;
+    rdfs:label "MHKG Ontology — Mental Health Knowledge Graph TBox v3.0"@en ;
+    dct:description "QB4OLAP multidimensional ontology for mental health survey analysis (mhSurveyCube / FACT_Mental_Health) and WHO suicide rate analysis (mhSuicideCube / FACT_Suicide_Rate)."@en ;
+    dct:creator "MHKG Project" ;
+    owl:versionInfo "3.0" .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OWL CLASSES — one per dimension-level range type
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Virtual root ──────────────────────────────────────────────────────────────
+onto:All a owl:Class ;
+    rdfs:label "Virtual All — top root of every hierarchy."@en ;
+    rdfs:subClassOf qb4o:LevelMember .
+
+# ── Geography ─────────────────────────────────────────────────────────────────
+onto:Continent a owl:Class ;
+    rdfs:label "World continent."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    owl:equivalentClass dbpedia:Continent ;
+    rdfs:seeAlso wikidata:Q5107 ;
+    rdfs:seeAlso schema:Continent .
+
+onto:Region a owl:Class ;
+    rdfs:label "Sub-continental geographic region (UN Statistics Division)."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q82794 .
+
+onto:Country a owl:Class ;
+    rdfs:label "Sovereign country or territory."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    owl:equivalentClass schema:Country ;
+    owl:equivalentClass dbpedia:Country ;
+    rdfs:seeAlso wikidata:Q6256 .
+
+# ── Demographics ──────────────────────────────────────────────────────────────
+onto:GenderCategory a owl:Class ;
+    rdfs:label "Broad gender category: Male, Female, Non-Binary, Other, Both sexes."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q48277 .
+
+onto:Gender a owl:Class ;
+    rdfs:label "Specific gender identity of a survey respondent."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q290 ;
+    rdfs:seeAlso schema:GenderType .
+
+onto:LifeStage a owl:Class ;
+    rdfs:label "Human life stage: Adolescent, Young Adult, Adult, Middle-Aged, Senior."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q4667846 ;
+    rdfs:seeAlso dbpedia:Life_course_approach .
+
+onto:AgeGroup a owl:Class ;
+    rdfs:label "Age bracket grouping, e.g. 21-25."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q7325778 .
+
+# ── Academic ──────────────────────────────────────────────────────────────────
+onto:University a owl:Class ;
+    rdfs:label "University or higher education institution."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    owl:equivalentClass schema:CollegeOrUniversity ;
+    owl:equivalentClass dbpedia:University ;
+    rdfs:seeAlso wikidata:Q3918 .
+
+onto:AcademicYear a owl:Class ;
+    rdfs:label "Year of study in a degree programme (1st-4th or other)."@en ;
+    rdfs:subClassOf qb4o:LevelMember .
+
+onto:CGPACategory a owl:Class ;
+    rdfs:label "Cumulative Grade Point Average band."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q849789 .
+
+# ── Work Environment ──────────────────────────────────────────────────────────
+onto:Occupation a owl:Class ;
+    rdfs:label "Occupation type with workplace mental health context."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    owl:equivalentClass schema:Occupation ;
+    owl:equivalentClass dbpedia:Occupation ;
+    rdfs:seeAlso wikidata:Q12737077 .
+
+# ── Lifestyle / Behavioral ────────────────────────────────────────────────────
+onto:Lifestyle a owl:Class ;
+    rdfs:label "Lifestyle and behavioral profile: sleep, diet, activity, substance use."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q1969448 .
+
+# ── Support Systems ───────────────────────────────────────────────────────────
+onto:SupportSystem a owl:Class ;
+    rdfs:label "Social support and clinical treatment profile."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q1189847 ;
+    rdfs:seeAlso dbpedia:Social_support .
+
+# ── Time ──────────────────────────────────────────────────────────────────────
+onto:Year a owl:Class ;
+    rdfs:label "Calendar year."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q577 .
+
+onto:Quarter a owl:Class ;
+    rdfs:label "Calendar quarter (Q1-Q4)."@en ;
+    rdfs:subClassOf qb4o:LevelMember .
+
+onto:Month a owl:Class ;
+    rdfs:label "Calendar month (1-12)."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q18602249 .
+
+onto:Week a owl:Class ;
+    rdfs:label "ISO 8601 calendar week."@en ;
+    rdfs:subClassOf qb4o:LevelMember .
+
+onto:Day a owl:Class ;
+    rdfs:label "Specific survey response date."@en ;
+    rdfs:subClassOf qb4o:LevelMember ;
+    rdfs:seeAlso wikidata:Q573 .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OWL PROPERTY DECLARATIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Dimension properties (point to level members — ObjectProperty)
+mhp:geographyDim     a owl:ObjectProperty, qb:DimensionProperty .
+mhp:demographicsDim  a owl:ObjectProperty, qb:DimensionProperty .
+mhp:academicDim      a owl:ObjectProperty, qb:DimensionProperty .
+mhp:workEnvDim       a owl:ObjectProperty, qb:DimensionProperty .
+mhp:lifestyleDim     a owl:ObjectProperty, qb:DimensionProperty .
+mhp:supportSystemDim a owl:ObjectProperty, qb:DimensionProperty .
+mhp:timeDim          a owl:ObjectProperty, qb:DimensionProperty .
+# Suicide cube dimensions
+mhp:suicideGeoDim    a owl:ObjectProperty, qb:DimensionProperty .
+mhp:suicideGenderDim a owl:ObjectProperty, qb:DimensionProperty .
+mhp:suicideTimeDim   a owl:ObjectProperty, qb:DimensionProperty .
+
+# Inline / degenerate datatype properties
+mhp:age                a owl:DatatypeProperty ; rdfs:range xsd:float .
+mhp:cgpa               a owl:DatatypeProperty ; rdfs:range xsd:float .
+mhp:relationshipStatus a owl:DatatypeProperty ; rdfs:range xsd:string .
+mhp:socialSupport      a owl:DatatypeProperty ; rdfs:range xsd:string .
+mhp:familyHistory      a owl:DatatypeProperty ; rdfs:range xsd:string .
+mhp:treatment          a owl:DatatypeProperty ; rdfs:range xsd:string .
+# Suicide inline attributes
+mhp:whoRegionCode      a owl:DatatypeProperty ; rdfs:range xsd:string .
+mhp:whoRegionName      a owl:DatatypeProperty ; rdfs:range xsd:string .
+mhp:locationCode       a owl:DatatypeProperty ; rdfs:range xsd:string .
+mhp:sexCode            a owl:DatatypeProperty ; rdfs:range xsd:string .
+mhp:valueLabel         a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CUBES  (qb:DataStructureDefinition)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Survey Cube (all 7 dimensions, 7 measures) ────────────────────────────────
+# Renamed from "mentalHealthCube" — "Survey" reflects the fact table content.
+# Covers FACT_Mental_Health (datasets 1-13).
+# The former mhStudentCube and mhWorkCube are removed as standalone cubes;
+# their analytical perspectives are expressed as cuboids (mhAcademicCuboid,
+# mhWorkCuboid) with isCuboidOf pointing here.
+mhs:mhSurveyCube a qb:DataStructureDefinition ;
+    dct:conformsTo <http://purl.org/qb4olap/cubes> ;
+    rdfs:label "Mental Health Survey Cube — all survey observations across all dimensions."@en ;
+    dct:description "Covers FACT_Mental_Health (datasets 1-13). Dimensions: Geography, Demographics, Academic, WorkEnvironment, Lifestyle, SupportSystem, Time."@en ;
+    qb:component [ qb:measure mhp:depressionScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:anxietyScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:stressLevel ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:sleepHours ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:screenTime ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:physicalActivityHours ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:socialSupportScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb4o:dimension mhp:geographyDim ;     qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:demographicsDim ;  qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:academicDim ;      qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:workEnvDim ;       qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:lifestyleDim ;     qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:supportSystemDim ; qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:timeDim ;          qb4o:cardinality qb4o:OneToMany ] .
+
+# ── Suicide Rate Cube (WHO MH_12) ─────────────────────────────────────────────
+# Covers FACT_Suicide_Rate (dataset 14).
+# Grain: Country × Sex × Year.
+# Enables: global trend analysis, gender gap analysis, regional risk comparison.
+mhs:mhSuicideCube a qb:DataStructureDefinition ;
+    dct:conformsTo <http://purl.org/qb4olap/cubes> ;
+    rdfs:label "WHO Suicide Rate Cube — age-standardised rates per 100,000 population."@en ;
+    dct:description "Covers FACT_Suicide_Rate (dataset 14). WHO GHO indicator MH_12. Grain: Country × Sex × Year."@en ;
+    rdfs:seeAlso <https://www.who.int/data/gho/data/indicators/indicator-details/GHO/age-standardized-suicide-rates-(per-100-000-population)> ;
+    qb:component [ qb:measure mhp:suicideRate ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:suicideRateLow ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:min ] ;
+    qb:component [ qb:measure mhp:suicideRateHigh ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:max ] ;
+    qb:component [ qb4o:dimension mhp:suicideGeoDim ;    qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:suicideGenderDim ; qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:dimension mhp:suicideTimeDim ;   qb4o:cardinality qb4o:OneToMany ] .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CUBOIDS  (concrete level-bound aggregation views)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Survey master cuboid ──────────────────────────────────────────────────────
+mhs:mhSurveyCuboid a qb:DataStructureDefinition ;
+    dct:conformsTo <http://purl.org/qb4olap/cubes> ;
+    qb4o:isCuboidOf mhs:mhSurveyCube ;
+    rdfs:label "Survey Master Cuboid — full-grain survey view."@en ;
+    qb:component [ qb4o:level mhp:Country ;       qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Gender ;         qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:AgeGroup ;       qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:CGPACategory ;   qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:AcademicYear ;   qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Occupation ;     qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:SleepQuality ;   qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:SupportSystem ;  qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Year ;           qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb:measure mhp:depressionScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:anxietyScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:stressLevel ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:sleepHours ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:screenTime ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:physicalActivityHours ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:socialSupportScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:sum ] .
+
+# ── Academic analytical cuboid (replaces former mhStudentCuboid) ──────────────
+mhs:mhAcademicCuboid a qb:DataStructureDefinition ;
+    dct:conformsTo <http://purl.org/qb4olap/cubes> ;
+    qb4o:isCuboidOf mhs:mhSurveyCube ;
+    rdfs:label "Academic Cuboid — Country × AgeGroup × CGPACategory × AcademicYear × Year."@en ;
+    qb:component [ qb4o:level mhp:Country ;      qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:AgeGroup ;     qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:CGPACategory ; qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:AcademicYear ; qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Year ;         qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb:measure mhp:depressionScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max ] ;
+    qb:component [ qb:measure mhp:anxietyScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max ] ;
+    qb:component [ qb:measure mhp:stressLevel ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max ] ;
+    qb:component [ qb:measure mhp:sleepHours ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count ] .
+
+# ── Work-environment analytical cuboid (replaces former mhWorkCuboid) ─────────
+mhs:mhWorkCuboid a qb:DataStructureDefinition ;
+    dct:conformsTo <http://purl.org/qb4olap/cubes> ;
+    qb4o:isCuboidOf mhs:mhSurveyCube ;
+    rdfs:label "Work-Environment Cuboid — Country × Occupation × Gender × Year."@en ;
+    qb:component [ qb4o:level mhp:Country ;    qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Occupation ; qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Gender ;     qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Year ;       qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb:measure mhp:stressLevel ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max ] ;
+    qb:component [ qb:measure mhp:screenTime ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count, qb4o:min, qb4o:max ] ;
+    qb:component [ qb:measure mhp:depressionScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count ] ;
+    qb:component [ qb:measure mhp:anxietyScore ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:count ] .
+
+# ── Suicide Rate cuboid ───────────────────────────────────────────────────────
+mhs:mhSuicideCuboid a qb:DataStructureDefinition ;
+    dct:conformsTo <http://purl.org/qb4olap/cubes> ;
+    qb4o:isCuboidOf mhs:mhSuicideCube ;
+    rdfs:label "Suicide Rate Cuboid — Country × Gender × Year."@en ;
+    qb:component [ qb4o:level mhp:Country ; qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Gender ;  qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb4o:level mhp:Year ;    qb4o:cardinality qb4o:OneToMany ] ;
+    qb:component [ qb:measure mhp:suicideRate ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:min, qb4o:max, qb4o:sum ] ;
+    qb:component [ qb:measure mhp:suicideRateLow ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:min ] ;
+    qb:component [ qb:measure mhp:suicideRateHigh ;
+                   qb4o:aggregateFunction qb4o:avg, qb4o:max ] .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DATASETS  (qb:DataSet — structural bindings)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+dataset:mhSurveyDataset a qb:DataSet ;
+    qb:structure mhs:mhSurveyCuboid ;
+    rdfs:label "Mental Health Survey Dataset — all survey observations."@en .
+
+dataset:mhAcademicDataset a qb:DataSet ;
+    qb:structure mhs:mhAcademicCuboid ;
+    rdfs:label "Academic Mental Health Observations (student slice)."@en .
+
+dataset:mhWorkDataset a qb:DataSet ;
+    qb:structure mhs:mhWorkCuboid ;
+    rdfs:label "Work-Environment Mental Health Observations (work slice)."@en .
+
+dataset:mhSuicideDataset a qb:DataSet ;
+    qb:structure mhs:mhSuicideCuboid ;
+    rdfs:label "WHO Suicide Rate Dataset (MH_12, dataset 14)."@en .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DIMENSIONS  (qb:DimensionProperty)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Survey cube dimensions ────────────────────────────────────────────────────
+mhp:geographyDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:geoHierarchy ;
+    rdfs:label "Geographic dimension: Country → Region → Continent."@en .
+
+mhp:demographicsDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:ageHierarchy, mhs:genderHierarchy ;
+    rdfs:label "Demographic dimension: Gender, Age Group, Life Stage."@en .
+
+mhp:academicDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:academicHierarchy ;
+    rdfs:label "Academic dimension: CGPA Category, Academic Year, University."@en .
+
+mhp:workEnvDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:workHierarchy ;
+    rdfs:label "Work environment dimension: Occupation, Benefits, Care Options."@en .
+
+mhp:lifestyleDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:lifestyleHierarchy ;
+    rdfs:label "Lifestyle and behavioral dimension: Sleep Quality, Activity, Diet."@en .
+
+mhp:supportSystemDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:supportHierarchy ;
+    rdfs:label "Support system dimension: Social Support, Family History, Treatment."@en .
+
+mhp:timeDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:timeHierarchy ;
+    rdfs:label "Time dimension: Day → Week → Month → Quarter → Year."@en .
+
+# ── Suicide cube dimensions ───────────────────────────────────────────────────
+# Declared as separate DimensionProperties so each cube is independently
+# queryable; they share the underlying hierarchies (geo, gender, time).
+mhp:suicideGeoDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:geoHierarchy ;
+    rdfs:label "Suicide cube geography: Country → Region → Continent."@en .
+
+mhp:suicideGenderDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:genderHierarchy ;
+    rdfs:label "Suicide cube gender (includes WHO 'Both sexes' aggregate)."@en .
+
+mhp:suicideTimeDim a qb:DimensionProperty ;
+    qb4o:hasHierarchy mhs:timeHierarchy ;
+    rdfs:label "Suicide cube time dimension: Year."@en .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# HIERARCHIES  (qb4o:Hierarchy)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+mhs:geoHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Geographic Hierarchy: Country → Region → Continent → All."@en ;
+    qb4o:inDimension mhp:geographyDim ;
+    qb4o:hasLevel mhp:All, mhp:Continent, mhp:Region, mhp:Country .
+
+mhs:ageHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Age Hierarchy: AgeGroup → LifeStage → All."@en ;
+    qb4o:inDimension mhp:demographicsDim ;
+    qb4o:hasLevel mhp:All, mhp:LifeStage, mhp:AgeGroup .
+
+mhs:genderHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Gender Hierarchy: Gender → GenderCategory → All."@en ;
+    qb4o:inDimension mhp:demographicsDim ;
+    qb4o:hasLevel mhp:All, mhp:GenderCategory, mhp:Gender .
+
+mhs:academicHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Academic Hierarchy: CGPACategory → AcademicYear → University → Country → All."@en ;
+    qb4o:inDimension mhp:academicDim ;
+    qb4o:hasLevel mhp:All, mhp:Country, mhp:University, mhp:AcademicYear, mhp:CGPACategory .
+
+mhs:workHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Work Environment Hierarchy: Occupation → All."@en ;
+    qb4o:inDimension mhp:workEnvDim ;
+    qb4o:hasLevel mhp:All, mhp:Occupation .
+
+mhs:lifestyleHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Lifestyle Hierarchy: SleepQuality → All."@en ;
+    qb4o:inDimension mhp:lifestyleDim ;
+    qb4o:hasLevel mhp:All, mhp:SleepQuality .
+
+mhs:supportHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Support System Hierarchy: SupportSystem → All."@en ;
+    qb4o:inDimension mhp:supportSystemDim ;
+    qb4o:hasLevel mhp:All, mhp:SupportSystem .
+
+mhs:timeHierarchy a qb4o:Hierarchy ;
+    rdfs:label "Time Hierarchy: Day → Week → Month → Quarter → Year."@en ;
+    qb4o:inDimension mhp:timeDim ;
+    qb4o:hasLevel mhp:Day, mhp:Week, mhp:Month, mhp:Quarter, mhp:Year .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# HIERARCHY STEPS  (qb4o:HierarchyStep)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Geography ─────────────────────────────────────────────────────────────────
+_:geoStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:geoHierarchy ;
+    qb4o:childLevel  mhp:Country ;
+    qb4o:parentLevel mhp:Region ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inRegion .
+
+_:geoStep2 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:geoHierarchy ;
+    qb4o:childLevel  mhp:Region ;
+    qb4o:parentLevel mhp:Continent ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inContinent .
+
+_:geoStep3 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:geoHierarchy ;
+    qb4o:childLevel  mhp:Continent ;
+    qb4o:parentLevel mhp:All ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAll .
+
+# ── Age ───────────────────────────────────────────────────────────────────────
+_:ageStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:ageHierarchy ;
+    qb4o:childLevel  mhp:AgeGroup ;
+    qb4o:parentLevel mhp:LifeStage ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inLifeStage .
+
+_:ageStep2 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:ageHierarchy ;
+    qb4o:childLevel  mhp:LifeStage ;
+    qb4o:parentLevel mhp:All ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAll .
+
+# ── Gender ────────────────────────────────────────────────────────────────────
+_:genderStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:genderHierarchy ;
+    qb4o:childLevel  mhp:Gender ;
+    qb4o:parentLevel mhp:GenderCategory ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inGenderCategory .
+
+_:genderStep2 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:genderHierarchy ;
+    qb4o:childLevel  mhp:GenderCategory ;
+    qb4o:parentLevel mhp:All ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAll .
+
+# ── Academic ──────────────────────────────────────────────────────────────────
+_:acadStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:academicHierarchy ;
+    qb4o:childLevel  mhp:CGPACategory ;
+    qb4o:parentLevel mhp:AcademicYear ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAcademicYear .
+
+_:acadStep2 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:academicHierarchy ;
+    qb4o:childLevel  mhp:AcademicYear ;
+    qb4o:parentLevel mhp:University ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inUniversity .
+
+_:acadStep3 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:academicHierarchy ;
+    qb4o:childLevel  mhp:University ;
+    qb4o:parentLevel mhp:Country ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inCountryAcad .
+
+_:acadStep4 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:academicHierarchy ;
+    qb4o:childLevel  mhp:Country ;
+    qb4o:parentLevel mhp:All ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAll .
+
+# ── Work ──────────────────────────────────────────────────────────────────────
+_:workStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:workHierarchy ;
+    qb4o:childLevel  mhp:Occupation ;
+    qb4o:parentLevel mhp:All ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAll .
+
+# ── Lifestyle ─────────────────────────────────────────────────────────────────
+_:lifestyleStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:lifestyleHierarchy ;
+    qb4o:childLevel  mhp:SleepQuality ;
+    qb4o:parentLevel mhp:All ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAll .
+
+# ── Support System ────────────────────────────────────────────────────────────
+_:supportStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:supportHierarchy ;
+    qb4o:childLevel  mhp:SupportSystem ;
+    qb4o:parentLevel mhp:All ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inAll .
+
+# ── Time ──────────────────────────────────────────────────────────────────────
+_:timeStep1 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:timeHierarchy ;
+    qb4o:childLevel  mhp:Day ;
+    qb4o:parentLevel mhp:Week ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inWeek .
+
+_:timeStep2 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:timeHierarchy ;
+    qb4o:childLevel  mhp:Week ;
+    qb4o:parentLevel mhp:Month ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inMonth .
+
+_:timeStep3 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:timeHierarchy ;
+    qb4o:childLevel  mhp:Month ;
+    qb4o:parentLevel mhp:Quarter ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inQuarter .
+
+_:timeStep4 a qb4o:HierarchyStep ;
+    qb4o:inHierarchy mhs:timeHierarchy ;
+    qb4o:childLevel  mhp:Quarter ;
+    qb4o:parentLevel mhp:Year ;
+    qb4o:pcCardinality qb4o:OneToMany ;
+    qb4o:rollup mha:inYear .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LEVELS  (qb4o:LevelProperty)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+mhp:All a qb4o:LevelProperty ;
+    rdfs:label "Virtual All — root of every hierarchy."@en ;
+    qb4o:hasAttribute mha:allId, mha:allName ;
+    rdfs:range onto:All .
+
+# ── Geography ─────────────────────────────────────────────────────────────────
+mhp:Continent a qb4o:LevelProperty ;
+    rdfs:label "World continent level."@en ;
+    qb4o:hasAttribute mha:continentId, mha:continentName ;
+    rdfs:range onto:Continent ;
+    owl:equivalentClass dbpedia:Continent .
+
+mhp:Region a qb4o:LevelProperty ;
+    rdfs:label "Sub-continental region level (UN Statistics Division)."@en ;
+    qb4o:hasAttribute mha:regionId, mha:regionName, mha:inContinent ;
+    rdfs:range onto:Region .
+
+mhp:Country a qb4o:LevelProperty ;
+    rdfs:label "Country level — 150+ countries/territories in v2 schema."@en ;
+    qb4o:hasAttribute mha:countryId, mha:countryName, mha:inRegion ;
+    rdfs:range onto:Country ;
+    owl:equivalentClass schema:Country .
+
+# ── Demographics ──────────────────────────────────────────────────────────────
+mhp:Gender a qb4o:LevelProperty ;
+    rdfs:label "Gender identity of respondent (includes WHO 'Both sexes')."@en ;
+    qb4o:hasAttribute mha:genderId, mha:gender, mha:inGenderCategory ;
+    rdfs:range onto:Gender .
+
+mhp:GenderCategory a qb4o:LevelProperty ;
+    rdfs:label "Broad gender category."@en ;
+    qb4o:hasAttribute mha:genderCategoryId, mha:genderCategory ;
+    rdfs:range onto:GenderCategory .
+
+mhp:LifeStage a qb4o:LevelProperty ;
+    rdfs:label "Life stage: Adolescent, Young Adult, Adult, Middle-Aged, Senior."@en ;
+    qb4o:hasAttribute mha:lifeStageId, mha:lifeStageName ;
+    rdfs:range onto:LifeStage .
+
+mhp:AgeGroup a qb4o:LevelProperty ;
+    rdfs:label "Age bracket, e.g. 21-25."@en ;
+    qb4o:hasAttribute mha:ageGroupId, mha:ageGroupRange, mha:inLifeStage ;
+    rdfs:range onto:AgeGroup .
+
+# ── Academic ──────────────────────────────────────────────────────────────────
+mhp:University a qb4o:LevelProperty ;
+    rdfs:label "University or institution."@en ;
+    qb4o:hasAttribute mha:universityId, mha:universityName, mha:inCountryAcad ;
+    rdfs:range onto:University ;
+    owl:equivalentClass schema:CollegeOrUniversity .
+
+mhp:AcademicYear a qb4o:LevelProperty ;
+    rdfs:label "Academic year of study (1st-4th or other)."@en ;
+    qb4o:hasAttribute mha:academicYearId, mha:academicYearName ;
+    rdfs:range onto:AcademicYear .
+
+mhp:CGPACategory a qb4o:LevelProperty ;
+    rdfs:label "CGPA performance band."@en ;
+    qb4o:hasAttribute mha:cgpaCategoryId, mha:cgpaCategory, mha:cgpaRange,
+                      mha:cgpaValue, mha:inAcademicYear ;
+    rdfs:range onto:CGPACategory .
+
+# ── Work Environment ──────────────────────────────────────────────────────────
+mhp:Occupation a qb4o:LevelProperty ;
+    rdfs:label "Occupation type and workplace mental health indicators."@en ;
+    qb4o:hasAttribute mha:occupationId, mha:occupationName, mha:workInterest,
+                      mha:benefits, mha:careOptions, mha:techCompany ;
+    rdfs:range onto:Occupation ;
+    owl:equivalentClass schema:Occupation .
+
+# ── Lifestyle ─────────────────────────────────────────────────────────────────
+mhp:SleepQuality a qb4o:LevelProperty ;
+    rdfs:label "Lifestyle behavioral profile — sleep quality, activity, diet."@en ;
+    qb4o:hasAttribute mha:lifestyleId, mha:sleepQuality, mha:physicalActivity,
+                      mha:dietType, mha:substanceUse, mha:changesHabits,
+                      mha:moodSwings, mha:copingStruggles, mha:daysIndoorsCategory ;
+    rdfs:range onto:Lifestyle .
+
+# ── Support System (NEW in v3) ────────────────────────────────────────────────
+mhp:SupportSystem a qb4o:LevelProperty ;
+    rdfs:label "Social and clinical support: social support, family history, treatment."@en ;
+    qb4o:hasAttribute mha:supportSystemId, mha:socialSupportAttr,
+                      mha:familyHistoryAttr, mha:treatmentAttr ;
+    rdfs:range onto:SupportSystem .
+
+# ── Time ──────────────────────────────────────────────────────────────────────
+mhp:Year a qb4o:LevelProperty ;
+    rdfs:label "Calendar year."@en ;
+    qb4o:hasAttribute mha:yearId, mha:yearValue ;
+    rdfs:range onto:Year .
+
+mhp:Quarter a qb4o:LevelProperty ;
+    rdfs:label "Calendar quarter (Q1-Q4)."@en ;
+    qb4o:hasAttribute mha:quarterId, mha:quarterValue, mha:inYear ;
+    rdfs:range onto:Quarter .
+
+mhp:Month a qb4o:LevelProperty ;
+    rdfs:label "Calendar month (1-12)."@en ;
+    qb4o:hasAttribute mha:monthId, mha:monthValue, mha:inQuarter ;
+    rdfs:range onto:Month .
+
+mhp:Week a qb4o:LevelProperty ;
+    rdfs:label "ISO calendar week number."@en ;
+    qb4o:hasAttribute mha:weekId, mha:weekValue, mha:inMonth ;
+    rdfs:range onto:Week .
+
+mhp:Day a qb4o:LevelProperty ;
+    rdfs:label "Specific survey response date."@en ;
+    qb4o:hasAttribute mha:dayId, mha:dateValue, mha:inWeek ;
+    rdfs:range onto:Day .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LEVEL ATTRIBUTES  (qb4o:LevelAttribute / qb4o:RollupProperty)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Virtual All ───────────────────────────────────────────────────────────────
+mha:allId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:allName a qb4o:LevelAttribute ; rdfs:range xsd:string .
+
+# ── Geography ─────────────────────────────────────────────────────────────────
+mha:continentId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:continentName a qb4o:LevelAttribute ; rdfs:range xsd:string ;
+    owl:equivalentProperty schema:name .
+
+mha:regionId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:regionName a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:inContinent a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from Region to Continent."@en ;
+    rdfs:range onto:Continent .
+
+mha:countryId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:countryName a qb4o:LevelAttribute ; rdfs:range xsd:string ;
+    owl:equivalentProperty schema:name .
+mha:inRegion a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from Country to Region."@en ;
+    rdfs:range onto:Region .
+mha:inAll a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up to virtual All root."@en ;
+    rdfs:range xsd:string .
+
+# ── Demographics ──────────────────────────────────────────────────────────────
+mha:genderId         a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:gender           a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:genderCategoryId a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:genderCategory   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:inGenderCategory a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from Gender to GenderCategory."@en ;
+    rdfs:range onto:GenderCategory .
+
+mha:lifeStageId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:lifeStageName a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:ageGroupId    a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:ageGroupRange a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:inLifeStage   a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from AgeGroup to LifeStage."@en ;
+    rdfs:range onto:LifeStage .
+
+# ── Academic ──────────────────────────────────────────────────────────────────
+mha:universityId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:universityName a qb4o:LevelAttribute ; rdfs:range xsd:string ;
+    owl:equivalentProperty schema:name .
+mha:inCountryAcad  a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from University to Country."@en ;
+    rdfs:range onto:Country .
+
+mha:academicYearId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:academicYearName a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:inUniversity     a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from AcademicYear to University."@en ;
+    rdfs:range onto:University .
+
+mha:cgpaCategoryId a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:cgpaCategory   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:cgpaRange      a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:cgpaValue      a qb4o:LevelAttribute ; rdfs:range xsd:float .
+mha:inAcademicYear a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from CGPACategory to AcademicYear."@en ;
+    rdfs:range onto:AcademicYear .
+
+# ── Work Environment ──────────────────────────────────────────────────────────
+mha:occupationId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:occupationName a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:workInterest   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:benefits       a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:careOptions    a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:techCompany    a qb4o:LevelAttribute ; rdfs:range xsd:string .
+
+# ── Lifestyle ─────────────────────────────────────────────────────────────────
+mha:lifestyleId         a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:sleepQuality        a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:physicalActivity    a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:dietType            a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:substanceUse        a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:changesHabits       a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:moodSwings          a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:copingStruggles     a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:daysIndoorsCategory a qb4o:LevelAttribute ; rdfs:range xsd:string .
+
+# ── Support System ────────────────────────────────────────────────────────────
+mha:supportSystemId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:socialSupportAttr a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:familyHistoryAttr a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:treatmentAttr     a qb4o:LevelAttribute ; rdfs:range xsd:string .
+
+# ── Time ──────────────────────────────────────────────────────────────────────
+mha:yearId      a qb4o:LevelAttribute ; rdfs:range xsd:integer .
+mha:yearValue   a qb4o:LevelAttribute ; rdfs:range xsd:integer .
+mha:quarterId   a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:quarterValue a qb4o:LevelAttribute ; rdfs:range xsd:integer .
+mha:inYear      a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from Quarter to Year."@en ;
+    rdfs:range onto:Year .
+mha:monthId     a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:monthValue  a qb4o:LevelAttribute ; rdfs:range xsd:integer .
+mha:inQuarter   a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from Month to Quarter."@en ;
+    rdfs:range onto:Quarter .
+mha:weekId      a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:weekValue   a qb4o:LevelAttribute ; rdfs:range xsd:integer .
+mha:inMonth     a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from Week to Month."@en ;
+    rdfs:range onto:Month .
+mha:dayId       a qb4o:LevelAttribute ; rdfs:range xsd:string .
+mha:dateValue   a qb4o:LevelAttribute ; rdfs:range xsd:date .
+mha:inWeek      a qb4o:LevelAttribute, qb4o:RollupProperty ;
+    rdfs:label "Roll-up from Day to Week."@en ;
+    rdfs:range onto:Week .
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# MEASURES  (qb:MeasureProperty)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Survey cube measures ──────────────────────────────────────────────────────
+
+mhp:depressionScore a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Self-reported or assessed depression score."@en ;
+    rdfs:range xsd:float ;
+    owl:sameAs wikidata:Q42844 ;
+    rdfs:seeAlso <https://icd.who.int/browse/2024-01/mms/en#1563440232> ;
+    rdfs:seeAlso snomed:35489007 ;
+    rdfs:seeAlso mesh:D003866 ;
+    rdfs:seeAlso nci:C2980 ;
+    rdfs:seeAlso umls:C0011581 ;
+    rdfs:seeAlso dbpedia:Depression_(mood) .
+
+mhp:anxietyScore a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Self-reported or assessed anxiety score."@en ;
+    rdfs:range xsd:float ;
+    owl:sameAs wikidata:Q170382 ;
+    rdfs:seeAlso <https://icd.who.int/browse/2024-01/mms/en#1673871016> ;
+    rdfs:seeAlso snomed:197480006 ;
+    rdfs:seeAlso mesh:D001008 ;
+    rdfs:seeAlso nci:C2878 ;
+    rdfs:seeAlso umls:C0003469 ;
+    rdfs:seeAlso dbpedia:Anxiety .
+
+mhp:stressLevel a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Self-reported psychological stress level."@en ;
+    rdfs:range xsd:float ;
+    owl:sameAs wikidata:Q131 ;
+    rdfs:seeAlso snomed:73595000 ;
+    rdfs:seeAlso mesh:D013315 ;
+    rdfs:seeAlso nci:C28895 ;
+    rdfs:seeAlso umls:C0038443 ;
+    rdfs:seeAlso dbpedia:Stress_(biology) .
+
+mhp:sleepHours a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Average daily sleep duration (hours)."@en ;
+    rdfs:range xsd:float ;
+    rdfs:seeAlso wikidata:Q11158 ;
+    rdfs:seeAlso snomed:258158006 ;
+    rdfs:seeAlso mesh:D012890 ;
+    rdfs:seeAlso umls:C0037313 .
+
+mhp:screenTime a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Average daily screen/device usage time (hours)."@en ;
+    rdfs:range xsd:float ;
+    rdfs:seeAlso wikidata:Q28823505 ;
+    rdfs:seeAlso mesh:D000096028 .
+
+mhp:physicalActivityHours a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Average weekly physical activity (hours)."@en ;
+    rdfs:range xsd:float ;
+    rdfs:seeAlso wikidata:Q2407310 ;
+    rdfs:seeAlso snomed:68130003 ;
+    rdfs:seeAlso mesh:D015444 ;
+    rdfs:seeAlso umls:C0026606 .
+
+mhp:socialSupportScore a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Perceived social support score."@en ;
+    rdfs:range xsd:float ;
+    owl:sameAs wikidata:Q1189847 ;
+    rdfs:seeAlso mesh:D012944 ;
+    rdfs:seeAlso umls:C0037468 ;
+    rdfs:seeAlso dbpedia:Social_support .
+
+# ── Suicide cube measures ─────────────────────────────────────────────────────
+
+mhp:suicideRate a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Age-standardised suicide rate per 100,000 population (WHO MH_12)."@en ;
+    rdfs:range xsd:float ;
+    rdfs:seeAlso wikidata:Q11264 ;
+    rdfs:seeAlso <https://www.who.int/data/gho/data/indicators/indicator-details/GHO/age-standardized-suicide-rates-(per-100-000-population)> ;
+    rdfs:seeAlso snomed:44301001 ;
+    rdfs:seeAlso mesh:D013405 ;
+    rdfs:seeAlso nci:C50138 ;
+    rdfs:seeAlso umls:C0038661 ;
+    rdfs:seeAlso <https://icd.who.int/browse/2024-01/mms/en#1082933722> ;
+    rdfs:seeAlso dbpedia:Suicide .
+
+mhp:suicideRateLow a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Lower bound of 95% confidence interval for suicide rate."@en ;
+    rdfs:range xsd:float .
+
+mhp:suicideRateHigh a qb:MeasureProperty, owl:DatatypeProperty ;
+    rdfs:label "Upper bound of 95% confidence interval for suicide rate."@en ;
+    rdfs:range xsd:float .

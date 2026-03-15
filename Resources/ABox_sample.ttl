@@ -1,0 +1,593 @@
+# =============================================================================
+# MHKG ABox — SAMPLE (Illustrative)
+# Mental Health Knowledge Graph — Assertional Box (Sample Data)
+# Generated: 2026-03-03T00:00:00Z (hand-crafted sample, not from DB)
+# Based on: mhkg_tbox.ttl v3.0 + 02_generate_abox.py v3.0
+# Covers  : 2 Survey Observations + 1 Suicide Rate Observation
+#           All supporting dimension LevelMembers
+# =============================================================================
+
+@prefix mhp:     <http://mhkg.example.com/datasets/mentalhealth/abox/mdProperty#> .
+@prefix mhs:     <http://mhkg.example.com/datasets/mentalhealth/abox/mdStructure#> .
+@prefix mha:     <http://mhkg.example.com/datasets/mentalhealth/abox/mdAttribute#> .
+@prefix onto:    <http://mhkg.example.com/datasets/mentalhealth/abox/> .
+@prefix dataset: <http://mhkg.example.com/datasets/mentalhealth/abox/data#> .
+@prefix mhobs:   <http://mhkg.example.com/datasets/mentalhealth/abox/observation#> .
+@prefix mhsui:   <http://mhkg.example.com/datasets/mentalhealth/abox/suicide#> .
+@prefix qb:      <http://purl.org/linked-data/cube#> .
+@prefix qb4o:    <http://purl.org/qb4olap/cubes#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix schema:  <https://schema.org/> .
+@prefix wikidata:<http://www.wikidata.org/entity/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix geonames:<http://sws.geonames.org/> .
+
+
+# =============================================================================
+# SECTION 1 — DIMENSION LEVEL MEMBERS
+# =============================================================================
+
+# ── Virtual All root ──────────────────────────────────────────────────────────
+
+onto:All#ALL a qb4o:LevelMember ;
+    qb4o:memberOf mhp:All ;
+    mha:allId "ALL" ;
+    mha:allName "All" .
+
+
+# ── Geography: Continents ─────────────────────────────────────────────────────
+
+onto:Continent#Asia a qb4o:LevelMember, onto:Continent ;
+    qb4o:memberOf mhp:Continent ;
+    mha:continentId "1" ;
+    mha:continentName "Asia" ;
+    mha:inAll onto:All#ALL ;
+    owl:sameAs wikidata:Q48 ;
+    owl:sameAs geonames:6255147/ .
+
+onto:Continent#NorthAmerica a qb4o:LevelMember, onto:Continent ;
+    qb4o:memberOf mhp:Continent ;
+    mha:continentId "2" ;
+    mha:continentName "North America" ;
+    mha:inAll onto:All#ALL ;
+    owl:sameAs wikidata:Q49 ;
+    owl:sameAs geonames:6255149/ .
+
+
+# ── Geography: Regions ────────────────────────────────────────────────────────
+
+onto:Region#SouthernAsia a qb4o:LevelMember, onto:Region ;
+    qb4o:memberOf mhp:Region ;
+    mha:regionId "3" ;
+    mha:regionName "Southern Asia" ;
+    mha:inContinent onto:Continent#Asia .
+
+onto:Region#NorthernAmerica a qb4o:LevelMember, onto:Region ;
+    qb4o:memberOf mhp:Region ;
+    mha:regionId "8" ;
+    mha:regionName "Northern America" ;
+    mha:inContinent onto:Continent#NorthAmerica .
+
+
+# ── Geography: Countries ─────────────────────────────────────────────────────
+
+onto:Country#Bangladesh a qb4o:LevelMember, onto:Country ;
+    qb4o:memberOf mhp:Country ;
+    mha:countryId "12" ;
+    mha:countryName "Bangladesh" ;
+    mha:inRegion onto:Region#SouthernAsia ;
+    owl:sameAs wikidata:Q902 ;
+    owl:sameAs geonames:1210997/ ;
+    owl:sameAs dbpedia:Bangladesh .
+
+onto:Country#USA a qb4o:LevelMember, onto:Country ;
+    qb4o:memberOf mhp:Country ;
+    mha:countryId "101" ;
+    mha:countryName "USA" ;
+    mha:inRegion onto:Region#NorthernAmerica ;
+    owl:sameAs wikidata:Q30 ;
+    owl:sameAs geonames:6252001/ ;
+    owl:sameAs dbpedia:United_States .
+
+
+# ── Demographics: GenderCategories ───────────────────────────────────────────
+
+onto:GenderCategory#Binary a qb4o:LevelMember, onto:GenderCategory ;
+    qb4o:memberOf mhp:GenderCategory ;
+    mha:genderCategoryId "Binary" ;
+    mha:genderCategory "Binary" ;
+    mha:inAll onto:All#ALL .
+
+onto:GenderCategory#NonBinary a qb4o:LevelMember, onto:GenderCategory ;
+    qb4o:memberOf mhp:GenderCategory ;
+    mha:genderCategoryId "NonBinary" ;
+    mha:genderCategory "Non-Binary" ;
+    mha:inAll onto:All#ALL .
+
+
+# ── Demographics: Genders ─────────────────────────────────────────────────────
+
+onto:Gender#Male a qb4o:LevelMember, onto:Gender ;
+    qb4o:memberOf mhp:Gender ;
+    mha:genderId "1" ;
+    mha:gender "Male" ;
+    mha:inGenderCategory onto:GenderCategory#Binary .
+
+onto:Gender#Female a qb4o:LevelMember, onto:Gender ;
+    qb4o:memberOf mhp:Gender ;
+    mha:genderId "2" ;
+    mha:gender "Female" ;
+    mha:inGenderCategory onto:GenderCategory#Binary .
+
+onto:Gender#NonBinary a qb4o:LevelMember, onto:Gender ;
+    qb4o:memberOf mhp:Gender ;
+    mha:genderId "3" ;
+    mha:gender "Non-binary" ;
+    mha:inGenderCategory onto:GenderCategory#NonBinary .
+
+
+# ── Demographics: LifeStages ──────────────────────────────────────────────────
+
+onto:LifeStage#YoungAdult a qb4o:LevelMember, onto:LifeStage ;
+    qb4o:memberOf mhp:LifeStage ;
+    mha:lifeStageId "2" ;
+    mha:lifeStageName "Young Adult" ;
+    mha:inAll onto:All#ALL .
+
+onto:LifeStage#Adult a qb4o:LevelMember, onto:LifeStage ;
+    qb4o:memberOf mhp:LifeStage ;
+    mha:lifeStageId "3" ;
+    mha:lifeStageName "Adult" ;
+    mha:inAll onto:All#ALL .
+
+
+# ── Demographics: AgeGroups ───────────────────────────────────────────────────
+
+onto:AgeGroup#21-25 a qb4o:LevelMember, onto:AgeGroup ;
+    qb4o:memberOf mhp:AgeGroup ;
+    mha:ageGroupId "3" ;
+    mha:ageGroupRange "21-25" ;
+    mha:inLifeStage onto:LifeStage#YoungAdult .
+
+onto:AgeGroup#26-30 a qb4o:LevelMember, onto:AgeGroup ;
+    qb4o:memberOf mhp:AgeGroup ;
+    mha:ageGroupId "4" ;
+    mha:ageGroupRange "26-30" ;
+    mha:inLifeStage onto:LifeStage#Adult .
+
+
+# ── Academic: Universities ────────────────────────────────────────────────────
+
+onto:University#UniversityOfDhaka a qb4o:LevelMember, onto:University ;
+    qb4o:memberOf mhp:University ;
+    mha:universityId "5" ;
+    mha:universityName "University of Dhaka" ;
+    mha:inCountryAcad onto:Country#Bangladesh .
+
+onto:University#MITMassachusettsInstituteOfTechnology a qb4o:LevelMember, onto:University ;
+    qb4o:memberOf mhp:University ;
+    mha:universityId "22" ;
+    mha:universityName "MIT (Massachusetts Institute of Technology)" ;
+    mha:inCountryAcad onto:Country#USA .
+
+
+# ── Academic: AcademicYears ───────────────────────────────────────────────────
+
+onto:AcademicYear#1stYear a qb4o:LevelMember, onto:AcademicYear ;
+    qb4o:memberOf mhp:AcademicYear ;
+    mha:academicYearId "1" ;
+    mha:academicYearName "1st year" ;
+    mha:inUniversity onto:University#UniversityOfDhaka .
+
+onto:AcademicYear#3rdYear a qb4o:LevelMember, onto:AcademicYear ;
+    qb4o:memberOf mhp:AcademicYear ;
+    mha:academicYearId "3" ;
+    mha:academicYearName "3rd year" ;
+    mha:inUniversity onto:University#MITMassachusettsInstituteOfTechnology .
+
+
+# ── Academic: CGPACategories ──────────────────────────────────────────────────
+
+# Band: 3.0–3.5  (midpoint cgpa = 3.25)
+onto:CGPACategory#30-35 a qb4o:LevelMember, onto:CGPACategory ;
+    qb4o:memberOf mhp:CGPACategory ;
+    mha:cgpaCategoryId "2" ;
+    mha:cgpaCategory "3.0–3.5" ;
+    mha:cgpaRange "3.0–3.5" ;
+    mha:cgpaValue "3.25"^^xsd:float ;
+    mha:inAcademicYear onto:AcademicYear#1stYear .
+
+# Band: 3.5–4.0  (midpoint cgpa = 3.75)
+onto:CGPACategory#35-40 a qb4o:LevelMember, onto:CGPACategory ;
+    qb4o:memberOf mhp:CGPACategory ;
+    mha:cgpaCategoryId "3" ;
+    mha:cgpaCategory "3.5–4" ;
+    mha:cgpaRange "3.5–4.0" ;
+    mha:cgpaValue "3.75"^^xsd:float ;
+    mha:inAcademicYear onto:AcademicYear#3rdYear .
+
+
+# ── Work Environment: Occupations ────────────────────────────────────────────
+
+# Record 1 — Student with work context
+onto:Occupation#1 a qb4o:LevelMember, onto:Occupation ;
+    qb4o:memberOf mhp:Occupation ;
+    mha:occupationId "1" ;
+    mha:occupationName "Student" ;
+    mha:workInterest "Yes" ;
+    mha:benefits "Yes" ;
+    mha:careOptions "Yes" ;
+    mha:techCompany "No" .
+
+# Record 2 — Corporate employee
+onto:Occupation#2 a qb4o:LevelMember, onto:Occupation ;
+    qb4o:memberOf mhp:Occupation ;
+    mha:occupationId "2" ;
+    mha:occupationName "Corporate" ;
+    mha:workInterest "Maybe" ;
+    mha:benefits "Yes" ;
+    mha:careOptions "Not sure" ;
+    mha:techCompany "Yes" .
+
+
+# ── Lifestyle (mhp:SleepQuality level — holds all lifestyle attributes) ───────
+
+# Lifestyle #1: Good sleep / High activity / Balanced diet
+onto:Lifestyle#1 a qb4o:LevelMember, onto:Lifestyle ;
+    qb4o:memberOf mhp:SleepQuality ;
+    mha:lifestyleId "1" ;
+    mha:sleepQuality "Good" ;
+    mha:physicalActivity "High" ;
+    mha:dietType "Balanced" ;
+    mha:substanceUse "Never" ;
+    mha:changesHabits "No" ;
+    mha:moodSwings "Low" ;
+    mha:copingStruggles "No" ;
+    mha:daysIndoorsCategory "Go out every day" .
+
+# Lifestyle #2: Poor sleep / Low activity / Junk food
+onto:Lifestyle#2 a qb4o:LevelMember, onto:Lifestyle ;
+    qb4o:memberOf mhp:SleepQuality ;
+    mha:lifestyleId "2" ;
+    mha:sleepQuality "Poor" ;
+    mha:physicalActivity "Low" ;
+    mha:dietType "Junk Food" ;
+    mha:substanceUse "Occasional" ;
+    mha:changesHabits "Yes" ;
+    mha:moodSwings "High" ;
+    mha:copingStruggles "Yes" ;
+    mha:daysIndoorsCategory "15–30 days" .
+
+
+# ── Support Systems ───────────────────────────────────────────────────────────
+
+# Support #1: Strong support, no family history, under treatment
+onto:SupportSystem#1 a qb4o:LevelMember, onto:SupportSystem ;
+    qb4o:memberOf mhp:SupportSystem ;
+    mha:supportSystemId "1" ;
+    mha:socialSupportAttr "High" ;
+    mha:familyHistoryAttr "No" ;
+    mha:treatmentAttr "Yes" .
+
+# Support #2: Weak support, family history, no treatment
+onto:SupportSystem#2 a qb4o:LevelMember, onto:SupportSystem ;
+    qb4o:memberOf mhp:SupportSystem ;
+    mha:supportSystemId "2" ;
+    mha:socialSupportAttr "Low" ;
+    mha:familyHistoryAttr "Yes" ;
+    mha:treatmentAttr "No" .
+
+
+# ── Time Hierarchy ────────────────────────────────────────────────────────────
+
+# Year
+onto:Year#2024 a qb4o:LevelMember, onto:Year ;
+    qb4o:memberOf mhp:Year ;
+    mha:yearId "2024" ;
+    mha:yearValue 2024 .
+
+# Quarter
+onto:Quarter#2024-Q1 a qb4o:LevelMember, onto:Quarter ;
+    qb4o:memberOf mhp:Quarter ;
+    mha:quarterId "2024-Q1" ;
+    mha:quarterValue 1 ;
+    mha:inYear onto:Year#2024 .
+
+# Month
+onto:Month#2024-03 a qb4o:LevelMember, onto:Month ;
+    qb4o:memberOf mhp:Month ;
+    mha:monthId "2024-03" ;
+    mha:monthValue 3 ;
+    mha:inQuarter onto:Quarter#2024-Q1 .
+
+# Week
+onto:Week#2024-W12 a qb4o:LevelMember, onto:Week ;
+    qb4o:memberOf mhp:Week ;
+    mha:weekId "2024-W12" ;
+    mha:weekValue 12 ;
+    mha:inMonth onto:Month#2024-03 .
+
+# Day — timestamp: 2024-03-15
+onto:Day#20240315 a qb4o:LevelMember, onto:Day ;
+    qb4o:memberOf mhp:Day ;
+    mha:dayId "20240315" ;
+    mha:dateValue "2024-03-15"^^xsd:date ;
+    mha:inWeek onto:Week#2024-W12 .
+
+# Day — timestamp: 2024-03-22
+onto:Day#20240322 a qb4o:LevelMember, onto:Day ;
+    qb4o:memberOf mhp:Day ;
+    mha:dayId "20240322" ;
+    mha:dateValue "2024-03-22"^^xsd:date ;
+    mha:inWeek onto:Week#2024-W12 .
+
+
+# =============================================================================
+# SECTION 2 — DATASET PROVENANCE
+# =============================================================================
+
+dataset:Dataset1 a qb:DataSet ;
+    rdfs:label "Student Mental Health Survey (Bangladesh)" ;
+    dct:source "Kaggle — Student Mental Health" ;
+    dct:identifier <https://www.kaggle.com/datasets/shariful07/student-mental-health> .
+
+dataset:Dataset5 a qb:DataSet ;
+    rdfs:label "Workplace Mental Health Survey (USA/Tech)" ;
+    dct:source "OSMI Mental Health in Tech Survey" ;
+    dct:identifier <https://osmihelp.org/research> .
+
+dataset:mhSurveyDataset a qb:DataSet ;
+    rdfs:label "MHKG Survey Cube Dataset — FACT_Mental_Health" ;
+    dct:description "Aggregated survey dataset covering student and workplace mental health observations." .
+
+dataset:mhSuicideDataset a qb:DataSet ;
+    rdfs:label "MHKG Suicide Rate Dataset — FACT_Suicide_Rate (WHO MH_12)" ;
+    dct:description "WHO age-standardised suicide rates per 100,000 population." ;
+    dct:identifier <https://www.who.int/data/gho/data/indicators/indicator-details/GHO/age-standardized-suicide-rates-(per-100-000-population)> .
+
+
+# =============================================================================
+# SECTION 3 — SURVEY OBSERVATIONS  (FACT_Mental_Health)
+# =============================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Observation 1
+# Profile  : Female, 22, Bangladesh, University of Dhaka, 1st year, CGPA 3.25
+#            Student occupation, Good lifestyle, Strong support system
+# Measures : Depression=2, Anxiety=2, Stress=2, Sleep=7h, Screen=4h,
+#            PhysAct=3h/wk, SocialSupport=8
+# Timestamp: 2024-03-15
+# ─────────────────────────────────────────────────────────────────────────────
+
+mhobs:Survey1001_A3F9B2C1 a qb:Observation ;
+    qb:dataSet dataset:mhSurveyDataset ;
+
+    # ── Dimension links ──────────────────────────────────────────────────────
+    mhp:geographyDim     onto:Country#Bangladesh ;
+    mhp:demographicsDim  onto:Gender#Female ;
+    mhp:academicDim      onto:CGPACategory#30-35 ;
+    mhp:workEnvDim       onto:Occupation#1 ;
+    mhp:lifestyleDim     onto:Lifestyle#1 ;
+    mhp:supportSystemDim onto:SupportSystem#1 ;
+    mhp:timeDim          onto:Day#20240315 ;
+
+    # ── Cuboid shorthand level pointers (used by mhSurveyCuboid) ────────────
+    mhp:Country      onto:Country#Bangladesh ;
+    mhp:Gender       onto:Gender#Female ;
+    mhp:AgeGroup     onto:AgeGroup#21-25 ;
+    mhp:CGPACategory onto:CGPACategory#30-35 ;
+    mhp:AcademicYear onto:AcademicYear#1stYear ;
+    mhp:Occupation   onto:Occupation#1 ;
+    mhp:SleepQuality onto:Lifestyle#1 ;
+    mhp:SupportSystem onto:SupportSystem#1 ;
+    mhp:Year         onto:Year#2024 ;
+    mhp:Day          onto:Day#20240315 ;
+
+    # ── Inline / degenerate attributes ──────────────────────────────────────
+    mhp:age                "22"^^xsd:float ;
+    mhp:cgpa               "3.25"^^xsd:float ;
+    mhp:relationshipStatus "Single" ;
+    mhp:socialSupport      "High" ;
+    mhp:familyHistory      "No" ;
+    mhp:treatment          "No" ;
+
+    # ── Measures ─────────────────────────────────────────────────────────────
+    mhp:depressionScore        "2.0"^^xsd:float ;
+    mhp:anxietyScore           "2.0"^^xsd:float ;
+    mhp:stressLevel            "2.0"^^xsd:float ;
+    mhp:sleepHours             "7.0"^^xsd:float ;
+    mhp:screenTime             "4.0"^^xsd:float ;
+    mhp:physicalActivityHours  "3.0"^^xsd:float ;
+    mhp:socialSupportScore     "8.0"^^xsd:float ;
+
+    # ── Provenance ───────────────────────────────────────────────────────────
+    dct:source dataset:Dataset1 ;
+    prov:wasAttributedTo <https://www.kaggle.com/datasets/shariful07/student-mental-health> .
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Observation 2
+# Profile  : Male, 28, USA, MIT, 3rd year, CGPA 3.75
+#            Corporate / Tech occupation, Poor lifestyle, Weak support
+# Measures : Depression=4, Anxiety=4, Stress=5, Sleep=5h, Screen=9h,
+#            PhysAct=1h/wk, SocialSupport=3
+# Timestamp: 2024-03-22
+# ─────────────────────────────────────────────────────────────────────────────
+
+mhobs:Survey1002_D7E1F4A8 a qb:Observation ;
+    qb:dataSet dataset:mhSurveyDataset ;
+
+    # ── Dimension links ──────────────────────────────────────────────────────
+    mhp:geographyDim     onto:Country#USA ;
+    mhp:demographicsDim  onto:Gender#Male ;
+    mhp:academicDim      onto:CGPACategory#35-40 ;
+    mhp:workEnvDim       onto:Occupation#2 ;
+    mhp:lifestyleDim     onto:Lifestyle#2 ;
+    mhp:supportSystemDim onto:SupportSystem#2 ;
+    mhp:timeDim          onto:Day#20240322 ;
+
+    # ── Cuboid shorthand level pointers ─────────────────────────────────────
+    mhp:Country      onto:Country#USA ;
+    mhp:Gender       onto:Gender#Male ;
+    mhp:AgeGroup     onto:AgeGroup#26-30 ;
+    mhp:CGPACategory onto:CGPACategory#35-40 ;
+    mhp:AcademicYear onto:AcademicYear#3rdYear ;
+    mhp:Occupation   onto:Occupation#2 ;
+    mhp:SleepQuality onto:Lifestyle#2 ;
+    mhp:SupportSystem onto:SupportSystem#2 ;
+    mhp:Year         onto:Year#2024 ;
+    mhp:Day          onto:Day#20240322 ;
+
+    # ── Inline / degenerate attributes ──────────────────────────────────────
+    mhp:age                "28"^^xsd:float ;
+    mhp:cgpa               "3.75"^^xsd:float ;
+    mhp:relationshipStatus "In a relationship" ;
+    mhp:socialSupport      "Low" ;
+    mhp:familyHistory      "Yes" ;
+    mhp:treatment          "Yes" ;
+
+    # ── Measures ─────────────────────────────────────────────────────────────
+    mhp:depressionScore        "4.0"^^xsd:float ;
+    mhp:anxietyScore           "4.0"^^xsd:float ;
+    mhp:stressLevel            "5.0"^^xsd:float ;
+    mhp:sleepHours             "5.0"^^xsd:float ;
+    mhp:screenTime             "9.0"^^xsd:float ;
+    mhp:physicalActivityHours  "1.0"^^xsd:float ;
+    mhp:socialSupportScore     "3.0"^^xsd:float ;
+
+    # ── Provenance ───────────────────────────────────────────────────────────
+    dct:source dataset:Dataset5 ;
+    prov:wasAttributedTo <https://osmihelp.org/research> .
+
+
+# =============================================================================
+# SECTION 4 — SUICIDE RATE OBSERVATIONS  (FACT_Suicide_Rate — WHO MH_12)
+# =============================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Suicide Rate Observation 1
+# Profile  : Bangladesh, Female, Year 2019
+# Rate     : 5.2 per 100,000 [CI: 4.1 – 6.5]
+# WHO Region: SEARO (South-East Asia)
+# ─────────────────────────────────────────────────────────────────────────────
+
+mhsui:SuicideRate501_C2A4E6F0 a qb:Observation ;
+    qb:dataSet dataset:mhSuicideDataset ;
+
+    # ── Dimension links ───────────────────────────────────────────────────────
+    mhp:suicideGeoDim    onto:Country#Bangladesh ;
+    mhp:suicideGenderDim onto:Gender#Female ;
+    mhp:suicideTimeDim   onto:Year#2024 ;
+
+    # ── Cuboid shorthand level pointers ──────────────────────────────────────
+    mhp:Country onto:Country#Bangladesh ;
+    mhp:Gender  onto:Gender#Female ;
+    mhp:Year    onto:Year#2024 ;
+
+    # ── Inline WHO metadata ───────────────────────────────────────────────────
+    mhp:whoRegionCode  "SEARO" ;
+    mhp:whoRegionName  "South-East Asia" ;
+    mhp:locationCode   "BGD" ;
+    mhp:sexCode        "FMLE" ;
+    mhp:valueLabel     "5.2 [4.1-6.5]" ;
+
+    # ── Measures ─────────────────────────────────────────────────────────────
+    mhp:suicideRate     "5.2"^^xsd:float ;
+    mhp:suicideRateLow  "4.1"^^xsd:float ;
+    mhp:suicideRateHigh "6.5"^^xsd:float ;
+
+    # ── Provenance ───────────────────────────────────────────────────────────
+    dct:source dataset:mhSuicideDataset ;
+    prov:wasAttributedTo <https://www.who.int/data/gho/data/indicators/indicator-details/GHO/age-standardized-suicide-rates-(per-100-000-population)> .
+
+
+# =============================================================================
+# SECTION 5 — EXTERNAL / CONCEPT LINKS  (TBox-level enrichment)
+# =============================================================================
+
+# ── Mental health measures → Wikidata / ICD-11 / SNOMED / MeSH / NCI / UMLS ─
+
+mhp:depressionScore
+    owl:sameAs wikidata:Q42844 ;
+    rdfs:seeAlso <https://icd.who.int/browse/2024-01/mms/en#1563440232> ;
+    rdfs:seeAlso <http://snomed.info/id/35489007> ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D003866> ;
+    rdfs:seeAlso <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C2980> ;
+    rdfs:seeAlso <http://linkedlifedata.com/resource/umls/id/C0011581> .
+
+mhp:anxietyScore
+    owl:sameAs wikidata:Q170382 ;
+    rdfs:seeAlso <https://icd.who.int/browse/2024-01/mms/en#1673871016> ;
+    rdfs:seeAlso <http://snomed.info/id/197480006> ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D001008> ;
+    rdfs:seeAlso <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C2878> ;
+    rdfs:seeAlso <http://linkedlifedata.com/resource/umls/id/C0003469> .
+
+mhp:stressLevel
+    owl:sameAs wikidata:Q131 ;
+    rdfs:seeAlso <http://snomed.info/id/73595000> ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D013315> ;
+    rdfs:seeAlso <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C28895> ;
+    rdfs:seeAlso <http://linkedlifedata.com/resource/umls/id/C0038443> .
+
+mhp:sleepHours
+    rdfs:seeAlso wikidata:Q11158 ;
+    rdfs:seeAlso <http://snomed.info/id/258158006> ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D012890> ;
+    rdfs:seeAlso <http://linkedlifedata.com/resource/umls/id/C0037313> .
+
+mhp:screenTime
+    rdfs:seeAlso wikidata:Q28823505 ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D000096028> .
+
+mhp:physicalActivityHours
+    rdfs:seeAlso wikidata:Q2407310 ;
+    rdfs:seeAlso <http://snomed.info/id/68130003> ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D015444> ;
+    rdfs:seeAlso <http://linkedlifedata.com/resource/umls/id/C0026606> .
+
+mhp:socialSupportScore
+    owl:sameAs wikidata:Q1189847 ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D012944> ;
+    rdfs:seeAlso <http://linkedlifedata.com/resource/umls/id/C0037468> .
+
+# ── Suicide measure → WHO GHO / Wikidata / ICD-11 / SNOMED / MeSH / NCI ──────
+
+mhp:suicideRate
+    rdfs:seeAlso wikidata:Q11264 ;
+    rdfs:seeAlso <https://www.who.int/data/gho/data/indicators/indicator-details/GHO/age-standardized-suicide-rates-(per-100-000-population)> ;
+    rdfs:seeAlso <http://snomed.info/id/44301001> ;
+    rdfs:seeAlso <http://id.nlm.nih.gov/mesh/D013405> ;
+    rdfs:seeAlso <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C50138> ;
+    rdfs:seeAlso <http://linkedlifedata.com/resource/umls/id/C0038661> ;
+    rdfs:seeAlso <https://icd.who.int/browse/2024-01/mms/en#1082933722> .
+
+# ── OWL class equivalences (Level ↔ Schema.org / DBpedia) ────────────────────
+
+mhp:Country     owl:equivalentClass schema:Country .
+mhp:University  owl:equivalentClass schema:CollegeOrUniversity .
+mhp:Occupation  owl:equivalentClass schema:Occupation .
+mhp:Continent   owl:equivalentClass dbpedia:Continent .
+
+# ── Attribute equivalences ────────────────────────────────────────────────────
+
+mha:countryName    owl:equivalentProperty schema:name .
+mha:universityName owl:equivalentProperty schema:name .
+mha:occupationName owl:equivalentProperty schema:name .
+mha:continentName  owl:equivalentProperty schema:name .
+
+# ── GeoNames concept link ─────────────────────────────────────────────────────
+
+<http://www.geonames.org/ontology#A.PCLI>
+    rdfs:label "independent political entity (country)"@en ;
+    rdfs:seeAlso onto:Country .
+
+# =============================================================================
+# END OF SAMPLE ABox
+# =============================================================================
