@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MHKG — Mental Health Knowledge Graph</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #0d6efd;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 { margin: 0; }
+    header p { font-size: 1.1rem; margin-top: 0.5rem; }
+    main { padding: 2rem; max-width: 900px; margin: auto; }
+    section { background: white; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+    h2 { color: #0d6efd; margin-top: 0; }
+    a { color: #0d6efd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ul { list-style-type: disc; padding-left: 1.5rem; }
+    footer { text-align: center; padding: 1rem; font-size: 0.9rem; color: #666; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MHKG — Mental Health Knowledge Graph</h1>
+    <p>Explore the ontology (TBox), sample dataset (ABox), OLAP analysis, and query interface</p>
+  </header>
+  <main>
+    <section>
+      <h2>Resources</h2>
+      <p>Contains the ontology and sample dataset:</p>
+      <ul>
+        <li><a href="Resources/TBox.ttl">TBox.ttl</a> — Ontology structure</li>
+        <li><a href="Resources/ABox_sample.ttl">ABox_sample.ttl</a> — Sample data</li>
+        <li><a href="Resources/README.md">README</a> — Dataset description</li>
+      </ul>
+      <p>Full dataset (~454MB) is available on Zenodo: <a href="https://doi.org/10.5281/zenodo.19038133">Zenodo DOI</a></p>
+    </section>
+    <section>
+      <h2>MHKG OLAP</h2>
+      <ul>
+        <li><a href="MHKG_OLAP/README_MHKG_OLAP.md">README</a> — OLAP setup and instructions</li>
+        <li><a href="MHKG_OLAP/mhkg_olap.py">mhkg_olap.py</a> — Analysis scripts</li>
+        <li>Assets: <a href="MHKG_OLAP/assets/mhkg_upload.js">JS file</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Query Interface</h2>
+      <ul>
+        <li><a href="query_interface/README.md">README</a> — Interface instructions</li>
+        <li><a href="query_interface/app.py">app.py</a> — Python interface script</li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    © 2026 Tonmoy Roy — Mental Health Knowledge Graph Project
+  </footer>
+</body>
+</html>
